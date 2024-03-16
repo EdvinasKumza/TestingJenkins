@@ -24,6 +24,7 @@ public class CreateNewUserTest
 
     @Test
     public void testUserCreation() {
+        registerUser(driver);
         System.out.println("Created user with email: " + generatedEmail);
     }
     @After
