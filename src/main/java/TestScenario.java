@@ -15,7 +15,7 @@ public class TestScenario {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Edvinas\\Downloads\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
-        String randomEmail = "test56f8c325c0494938860548107f9ea69c@example.com";
+        String randomEmail = "ededed@gmail.com";
 
         // 1.
         driver.get("https://demowebshop.tricentis.com/");
@@ -25,7 +25,7 @@ public class TestScenario {
 
         // 3.
         driver.findElement(By.id("Email")).sendKeys(randomEmail);
-        driver.findElement(By.id("Password")).sendKeys("test123");
+        driver.findElement(By.id("Password")).sendKeys("ededed");
         driver.findElement(By.xpath("//input[@value = 'Log in']")).click();
 
         // 4.
@@ -34,7 +34,7 @@ public class TestScenario {
         // 5.
         try
         {
-            BufferedReader reader = new BufferedReader(new FileReader("src/test/text/data2.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader("src/test/text/data1.txt"));
             String productName;
             while ((productName = reader.readLine()) != null)
             {
@@ -66,21 +66,25 @@ public class TestScenario {
         driver.findElement(By.id("checkout")).click();
 
         //8.
-        Select addressSelect = new Select(driver.findElement(By.id("billing-address-select")));
-        List<WebElement> options = addressSelect.getOptions();
-        if(options.size() == 1)
+        List<WebElement> selectElement = driver.findElements(By.id("billing-address-select"));
+
+        if(selectElement.isEmpty())
         {
-            WebElement city = driver.findElement(By.id("BillingNewAddress_CountryId"));
-            Select citySelect = new Select(city);
-            citySelect.selectByIndex(2);
+            WebElement country = driver.findElement(By.id("BillingNewAddress_CountryId"));
+            Select countrySelect = new Select(country);
+            countrySelect.selectByIndex(1);
             driver.findElement(By.id("BillingNewAddress_City")).sendKeys("Test");
             driver.findElement(By.id("BillingNewAddress_Address1")).sendKeys("Test");
             driver.findElement(By.id("BillingNewAddress_ZipPostalCode")).sendKeys("88888");
             driver.findElement(By.id("BillingNewAddress_PhoneNumber")).sendKeys("860000000");
         }
-        driver.findElement(By.xpath("//input[@value = 'Continue']")).click();
-        // 9.
+
         WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement addressButton = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//input[@class = 'button-1 new-address-next-step-button']")));
+        addressButton.click();
+
+        // 9.
         WebElement paymentMethodButton = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//input[@class = 'button-1 payment-method-next-step-button']")));
         paymentMethodButton.click();
@@ -94,7 +98,5 @@ public class TestScenario {
         WebElement confirmOrderButton = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//input[@class = 'button-1 confirm-order-next-step-button']")));
         confirmOrderButton.click();
-
-        // driver.quit();
     }
 }
