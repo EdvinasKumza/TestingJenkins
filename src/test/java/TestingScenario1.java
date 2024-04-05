@@ -50,7 +50,7 @@ public class TestingScenario1
         driver.findElement(By.linkText("Register")).click();
 
         // 4.
-        driver.findElement(By.id("gender-male")).click(); // Assuming Male gender
+        driver.findElement(By.id("gender-male")).click();
         driver.findElement(By.id("FirstName")).sendKeys("Test");
         driver.findElement(By.id("LastName")).sendKeys("User");
         String randomEmail = "test" + UUID.randomUUID() + "@example.com";
