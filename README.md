@@ -1,1 +1,1 @@
-Testing Automation coursework using Jenkins.
+Testing Automation coursework using Jenkins and Selenium.
